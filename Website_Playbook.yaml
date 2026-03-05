@@ -1,0 +1,35 @@
+- name: Run multiple curl commands using a loop
+
+  hosts: localhost
+
+  connection: local
+
+  vars:
+
+    urls:
+
+      - https://quantuma.ai
+
+      - https://leadsoc.com
+        
+  tasks:
+
+    - name: Curl each site
+
+      command: curl {{ item }}
+
+      register: curl_results
+
+      loop: "{{ urls }}"
+
+      retries: 2
+
+      delay: 5
+
+      ignore_errors: yes
+ 
+    - name: Show curl results
+
+      debug:
+
+        var: curl_results.results
